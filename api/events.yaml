@@ -5,6 +5,7 @@ infra_join:
   description:
     Event, that CGW generates whenever assigned infra successfully connects to CGW.
   type:
+    description: MANDATORY field. Type should be parsed by NB services for matching.
     type: string
     enum:
     - infra_join
@@ -37,6 +38,7 @@ infra_leave:
   description:
     Event, that CGW generates whenever assigned infra disconnects from the CGW.
   type:
+    description: MANDATORY field. Type should be parsed by NB services for matching.
     type: string
     enum:
     - infra_leave
@@ -60,6 +62,7 @@ unassigned_infra_join:
   description:
     Event, that CGW generates whenever un-assigned infra successfully connects to CGW.
   type:
+    description: MANDATORY field. Type should be parsed by NB services for matching.
     type: string
     enum:
     - unassigned_infra_join
@@ -89,6 +92,7 @@ unassigned_infra_leave:
   description:
     Event, that CGW generates whenever unassigned infra disconnects from the CGW.
   type:
+    description: MANDATORY field. Type should be parsed by NB services for matching.
     type: string
     enum:
     - unassigned_infra_leave
@@ -106,6 +110,7 @@ foreign_infra_connection:
     Event, that CGW generates whenever foreign (assigned, but connected
     to the wrong CGW instance)  infra successfully connects to CGW.
   type:
+    description: MANDATORY field. Type should be parsed by NB services for matching.
     type: string
     enum:
     - foreign_infra_connection
@@ -130,6 +135,7 @@ infrastructure_group_infra_capabilities_changed:
     Event, that CGW generates whenever CGW detects capabilities change
     of the connected assigned infra.
   type:
+    description: MANDATORY field. Type should be parsed by NB services for matching.
     type: string
     enum:
     - infrastructure_group_infra_capabilities_changed
@@ -169,6 +175,7 @@ ap_client_join:
     Event, that CGW generates whenever it detects topology
     change - a new WiFi client connection.
   type:
+    description: MANDATORY field. Type should be parsed by NB services for matching.
     type: string
     enum:
     - ap_client_join
@@ -201,6 +208,7 @@ ap_client_leave:
     Event, that CGW generates whenever it detects topology
     change - a WiFi client disconnect.
   type:
+    description: MANDATORY field. Type should be parsed by NB services for matching.
     type: string
     enum:
     - ap_client_leave
@@ -230,6 +238,7 @@ ap_client_migrate:
     change - existing WiFi client migrating from one infra to another
     (wifi client connects to AP_1 while was connected to AP_0).
   type:
+    description: MANDATORY field. Type should be parsed by NB services for matching.
     type: string
     enum:
     - ap_client_migrate
@@ -262,6 +271,7 @@ infrastructure_state_event_message:
     Enveloped infra state event that infra device generates periodically.
     The original UCentral State/Healthcheck events are presented in 'payload'.
   type:
+    description: MANDATORY field. Type should be parsed by NB services for matching.
     type: string
     enum:
     - infrastructure_state_event_message
@@ -288,6 +298,7 @@ infrastructure_realtime_event_message:
     Enveloped infra real-time event that infra device generates periodically.
     The original UCentral Real-time events are presented in 'payload'.
   type:
+    description: MANDATORY field. Type should be parsed by NB services for matching.
     type: string
     enum:
     - infrastructure_realtime_event_message
