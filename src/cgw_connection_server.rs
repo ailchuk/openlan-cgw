@@ -15,7 +15,6 @@ use crate::cgw_nb_api_listener::{
     ConsumerMetadata,
 };
 use crate::cgw_runtime::{cgw_get_runtime, CGWRuntimeType};
-use crate::cgw_tls::cgw_tls_get_cn_from_stream;
 use crate::cgw_ucentral_messages_queue_manager::{
     CGWUCentralMessagesQueueItem, CGWUCentralMessagesQueueState, CGW_MESSAGES_QUEUE,
     TIMEOUT_MANAGER_DURATION,
@@ -39,7 +38,10 @@ use crate::{
     cgw_remote_discovery::CGWRemoteDiscovery,
 };
 
-use cgw_common::cgw_errors::{Error, Result};
+use cgw_common::{
+    cgw_errors::{Error, Result},
+    cgw_tls::cgw_tls_get_cn_from_stream,
+};
 
 use std::str::FromStr;
 use std::{

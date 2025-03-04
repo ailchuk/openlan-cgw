@@ -428,12 +428,15 @@ checksum = "613afe47fcd5fac7ccf1db93babcb082c5994d996f20b8b159f2ad1658eb5724"
 name = "cgw-common"
 version = "0.1.0"
 dependencies = [
+ "base64 0.22.1",
  "derive_more",
  "env_logger",
  "eui48",
  "log",
  "prometheus",
  "rdkafka",
+ "rustls-pemfile",
+ "rustls-pki-types",
  "serde",
  "serde_json",
  "tokio",
@@ -445,7 +448,9 @@ dependencies = [
  "tokio-tungstenite 0.23.0",
  "tonic",
  "tungstenite 0.23.0",
+ "url",
  "warp",
+ "x509-parser",
 ]
 
 [[package]]

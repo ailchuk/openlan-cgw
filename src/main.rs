@@ -1,5 +1,4 @@
 #![warn(rust_2018_idioms)]
-mod cgw_app_args;
 mod cgw_connection_processor;
 mod cgw_connection_server;
 mod cgw_db_accessor;
@@ -12,7 +11,6 @@ mod cgw_remote_client;
 mod cgw_remote_discovery;
 mod cgw_remote_server;
 mod cgw_runtime;
-mod cgw_tls;
 mod cgw_ucentral_ap_parser;
 mod cgw_ucentral_messages_queue_manager;
 mod cgw_ucentral_parser;
@@ -25,7 +23,6 @@ extern crate log;
 #[macro_use]
 extern crate lazy_static;
 
-use cgw_app_args::AppArgs;
 use cgw_kafka_init::cgw_init_kafka_topics;
 use cgw_runtime::cgw_initialize_runtimes;
 
@@ -38,7 +35,7 @@ use tokio::{
     time::{sleep, Duration},
 };
 
-use std::{env, net::SocketAddr, str::FromStr, sync::Arc};
+use std::{env, net::SocketAddr, sync::Arc};
 
 use rlimit::{setrlimit, Resource};
 
@@ -48,9 +45,12 @@ use cgw_remote_server::CGWRemoteServer;
 
 use cgw_metrics::CGWMetrics;
 
-use cgw_tls::cgw_tls_create_acceptor;
-
-use cgw_common::cgw_errors::{Error, Result};
+use cgw_common::{
+    cgw_errors::{Error, Result},
+    cgw_app_args::AppArgs,
+    AppCoreLogLevel,
+    cgw_tls::cgw_tls_create_acceptor
+};
 
 use tokio::net::TcpStream;
 
@@ -59,26 +59,6 @@ use std::os::unix::io::AsFd;
 const CGW_TCP_KEEPALIVE_TIMEOUT: u32 = 30;
 const CGW_TCP_KEEPALIVE_COUNT: u32 = 3;
 const CGW_TCP_KEEPALIVE_INTERVAL: u32 = 10;
-
-#[derive(Copy, Clone)]
-enum AppCoreLogLevel {
-    /// Print debug-level messages and above
-    Debug,
-    /// Print info-level messages and above
-    Info,
-}
-
-impl FromStr for AppCoreLogLevel {
-    type Err = ();
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        match s {
-            "debug" => Ok(AppCoreLogLevel::Debug),
-            "info" => Ok(AppCoreLogLevel::Info),
-            _ => Err(()),
-        }
-    }
-}
 
 pub struct AppCore {
     cgw_server: Arc<CGWConnectionServer>,

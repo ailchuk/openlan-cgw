@@ -6,7 +6,7 @@ use std::{
 };
 
 use url::Url;
-use cgw_common::cgw_errors::{Error, Result};
+use crate::cgw_errors::{Error, Result};
 use crate::AppCoreLogLevel;
 
 const CGW_DEFAULT_ID: i32 = 0;

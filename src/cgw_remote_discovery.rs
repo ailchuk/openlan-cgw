@@ -1,5 +1,4 @@
 use crate::{
-    cgw_app_args::CGWRedisArgs,
     cgw_db_accessor::{CGWDBAccessor, CGWDBInfra, CGWDBInfrastructureGroup},
     cgw_device::{CGWDevice, CGWDeviceState, CGWDeviceType},
     cgw_devices_cache::CGWDevicesCache,
@@ -8,11 +7,14 @@ use crate::{
         CGWMetricsHealthComponentStatus,
     },
     cgw_remote_client::CGWRemoteClient,
-    cgw_tls::cgw_read_root_certs_dir,
     AppArgs,
 };
 
-use cgw_common::cgw_errors::{Error, Result};
+use cgw_common::{
+    cgw_errors::{Error, Result},
+    cgw_app_args::CGWRedisArgs,
+    cgw_tls::cgw_read_root_certs_dir,
+};
 
 use std::{
     collections::{HashMap, HashSet},
