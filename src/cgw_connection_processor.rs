@@ -1,6 +1,5 @@
 use crate::{
     cgw_connection_server::{CGWConnectionServer, CGWConnectionServerReqMsg},
-    cgw_device::{CGWDeviceCapabilities, CGWDeviceType},
     cgw_nb_api_listener::{
         cgw_construct_cloud_header, cgw_construct_infra_join_msg,
         cgw_construct_infra_realtime_event_message, cgw_construct_infra_request_result_msg,
@@ -11,14 +10,17 @@ use crate::{
         CGWUCentralMessagesQueueItem, CGWUCentralMessagesQueueState, CGW_MESSAGES_QUEUE,
         MESSAGE_TIMEOUT_DURATION,
     },
+    cgw_ucentral_topology_map::CGWUCentralTopologyMap,
+};
+
+use cgw_common::{
+    cgw_errors::{Error, Result},
     cgw_ucentral_parser::{
         cgw_ucentral_event_parse, cgw_ucentral_parse_connect_event, CGWUCentralCommandType,
         CGWUCentralEventType,
     },
-    cgw_ucentral_topology_map::CGWUCentralTopologyMap,
+    cgw_device::{CGWDeviceCapabilities, CGWDeviceType},
 };
-
-use cgw_common::cgw_errors::{Error, Result};
 
 use eui48::MacAddress;
 use futures_util::{

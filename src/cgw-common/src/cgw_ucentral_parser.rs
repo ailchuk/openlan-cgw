@@ -12,7 +12,7 @@ use serde_json::{Map, Value};
 use tokio_tungstenite::tungstenite::protocol::Message;
 use url::Url;
 
-use cgw_common::{
+use crate::{
     cgw_errors::{Error, Result},
     cgw_app_args::{CGWValidationSchemaArgs, CGWValidationSchemaRef},
 };

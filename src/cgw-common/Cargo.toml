@@ -3,8 +3,6 @@ name = "cgw-common"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 serde = { version = "1.0.144", features = ["derive"] }
 serde_json = { version = "1.0.85" }
@@ -29,3 +27,7 @@ base64 = { version = "0.22.0" }
 rustls-pki-types = { version = "1.7.0" }
 x509-parser = { version = "0.16.0" }
 rustls-pemfile = { version = "2.1.2" }
+jsonschema = { version = "0.18.0" }
+lazy_static = { version = "1.4.0" }
+flate2 = { version = "1.0.28" }
+reqwest = { version = "0.12.5", features = ["json"] }

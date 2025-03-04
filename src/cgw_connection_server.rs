@@ -1,7 +1,3 @@
-use crate::cgw_device::{
-    cgw_detect_device_changes, CGWDevice, CGWDeviceCapabilities, CGWDeviceState, CGWDeviceType,
-    OldNew,
-};
 use crate::cgw_nb_api_listener::{
     cgw_construct_cloud_header, cgw_construct_foreign_infra_connection_msg,
     cgw_construct_infra_capabilities_changed_msg, cgw_construct_infra_enqueue_response,
@@ -14,14 +10,9 @@ use crate::cgw_nb_api_listener::{
     cgw_construct_unassigned_infra_leave_msg, cgw_get_timestamp_16_digits, CGWKafkaProducerTopic,
     ConsumerMetadata,
 };
-use crate::cgw_runtime::{cgw_get_runtime, CGWRuntimeType};
 use crate::cgw_ucentral_messages_queue_manager::{
     CGWUCentralMessagesQueueItem, CGWUCentralMessagesQueueState, CGW_MESSAGES_QUEUE,
     TIMEOUT_MANAGER_DURATION,
-};
-use crate::cgw_ucentral_parser::{
-    cgw_ucentral_parse_command_message, CGWUCentralCommand, CGWUCentralCommandType,
-    CGWUCentralConfigValidators,
 };
 use crate::cgw_ucentral_topology_map::CGWUCentralTopologyMap;
 use crate::AppArgs;
@@ -41,6 +32,15 @@ use crate::{
 use cgw_common::{
     cgw_errors::{Error, Result},
     cgw_tls::cgw_tls_get_cn_from_stream,
+    cgw_runtime::{cgw_get_runtime, CGWRuntimeType},
+    cgw_ucentral_parser::{
+        cgw_ucentral_parse_command_message, CGWUCentralCommand, CGWUCentralCommandType,
+        CGWUCentralConfigValidators,
+    },
+    cgw_device::{
+        cgw_detect_device_changes, CGWDevice, CGWDeviceCapabilities, CGWDeviceState, CGWDeviceType,
+        OldNew,
+    },
 };
 
 use std::str::FromStr;
@@ -3012,8 +3012,8 @@ mod tests {
     use crate::{
         cgw_errors::Result,
         cgw_ucentral_ap_parser::cgw_ucentral_ap_parse_message,
-        cgw_ucentral_parser::{CGWUCentralEvent, CGWUCentralEventType},
     };
+    use cgw_common::cgw_ucentral_parser::{CGWUCentralEvent, CGWUCentralEventType};
 
     fn get_connect_json_msg() -> &'static str {
         r#"

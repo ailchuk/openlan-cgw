@@ -2,7 +2,6 @@
 mod cgw_connection_processor;
 mod cgw_connection_server;
 mod cgw_db_accessor;
-mod cgw_device;
 mod cgw_devices_cache;
 mod cgw_kafka_init;
 mod cgw_metrics;
@@ -10,11 +9,7 @@ mod cgw_nb_api_listener;
 mod cgw_remote_client;
 mod cgw_remote_discovery;
 mod cgw_remote_server;
-mod cgw_runtime;
-mod cgw_ucentral_ap_parser;
 mod cgw_ucentral_messages_queue_manager;
-mod cgw_ucentral_parser;
-mod cgw_ucentral_switch_parser;
 mod cgw_ucentral_topology_map;
 
 #[macro_use]
@@ -24,7 +19,6 @@ extern crate log;
 extern crate lazy_static;
 
 use cgw_kafka_init::cgw_init_kafka_topics;
-use cgw_runtime::cgw_initialize_runtimes;
 
 use nix::sys::socket::{setsockopt, sockopt};
 use tokio::{
@@ -49,7 +43,8 @@ use cgw_common::{
     cgw_errors::{Error, Result},
     cgw_app_args::AppArgs,
     AppCoreLogLevel,
-    cgw_tls::cgw_tls_create_acceptor
+    cgw_tls::cgw_tls_create_acceptor,
+    cgw_runtime::cgw_initialize_runtimes,
 };
 
 use tokio::net::TcpStream;
