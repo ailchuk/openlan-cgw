@@ -39,7 +39,7 @@ use crate::{
     cgw_remote_discovery::CGWRemoteDiscovery,
 };
 
-use crate::cgw_errors::{Error, Result};
+use cgw_common::cgw_errors::{Error, Result};
 
 use std::str::FromStr;
 use std::{

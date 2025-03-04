@@ -1,5 +1,5 @@
 use crate::cgw_app_args::CGWWSSArgs;
-use crate::cgw_errors::{collect_results, Error, Result};
+use cgw_common::cgw_errors::{collect_results, Error, Result};
 
 use base64::prelude::BASE64_STANDARD;
 use base64::Engine;

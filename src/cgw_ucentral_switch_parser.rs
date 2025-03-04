@@ -2,7 +2,7 @@ use eui48::MacAddress;
 use serde_json::Value;
 use std::{collections::HashMap, str::FromStr};
 
-use crate::cgw_errors::{Error, Result};
+use cgw_common::cgw_errors::{Error, Result};
 
 use crate::cgw_ucentral_parser::{
     CGWUCentralEvent, CGWUCentralEventReply, CGWUCentralEventState, CGWUCentralEventStateClients,

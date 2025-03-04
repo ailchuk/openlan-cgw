@@ -5,7 +5,6 @@ mod cgw_connection_server;
 mod cgw_db_accessor;
 mod cgw_device;
 mod cgw_devices_cache;
-mod cgw_errors;
 mod cgw_kafka_init;
 mod cgw_metrics;
 mod cgw_nb_api_listener;
@@ -51,7 +50,7 @@ use cgw_metrics::CGWMetrics;
 
 use cgw_tls::cgw_tls_create_acceptor;
 
-use crate::cgw_errors::{Error, Result};
+use cgw_common::cgw_errors::{Error, Result};
 
 use tokio::net::TcpStream;
 

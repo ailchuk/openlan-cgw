@@ -2,9 +2,9 @@ use crate::cgw_app_args::CGWDBArgs;
 
 use crate::cgw_tls::cgw_tls_create_db_connect;
 use crate::{
-    cgw_errors::{Error, Result},
     cgw_metrics::{CGWMetrics, CGWMetricsHealthComponent, CGWMetricsHealthComponentStatus},
 };
+use cgw_common::cgw_errors::{Error, Result};
 
 use eui48::MacAddress;
 

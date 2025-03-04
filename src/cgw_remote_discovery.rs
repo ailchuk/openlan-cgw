@@ -3,7 +3,6 @@ use crate::{
     cgw_db_accessor::{CGWDBAccessor, CGWDBInfra, CGWDBInfrastructureGroup},
     cgw_device::{CGWDevice, CGWDeviceState, CGWDeviceType},
     cgw_devices_cache::CGWDevicesCache,
-    cgw_errors::{Error, Result},
     cgw_metrics::{
         CGWMetrics, CGWMetricsCounterOpType, CGWMetricsCounterType, CGWMetricsHealthComponent,
         CGWMetricsHealthComponentStatus,
@@ -12,6 +11,8 @@ use crate::{
     cgw_tls::cgw_read_root_certs_dir,
     AppArgs,
 };
+
+use cgw_common::cgw_errors::{Error, Result};
 
 use std::{
     collections::{HashMap, HashSet},

@@ -5,7 +5,7 @@ use serde_json::{Map, Value};
 use std::io::prelude::*;
 use std::{collections::HashMap, str::FromStr};
 
-use crate::cgw_errors::{Error, Result};
+use cgw_common::cgw_errors::{Error, Result};
 
 use crate::cgw_ucentral_parser::{
     CGWUCentralEvent, CGWUCentralEventConnect, CGWUCentralEventConnectParamsCaps,

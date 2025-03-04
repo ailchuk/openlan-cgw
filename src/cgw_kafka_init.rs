@@ -1,5 +1,5 @@
 use crate::cgw_app_args::{CGWKafkaArgs, CGWRedisArgs};
-use crate::cgw_errors::{Error, Result};
+use cgw_common::cgw_errors::{Error, Result};
 use crate::cgw_remote_discovery::cgw_create_redis_client;
 
 use rdkafka::admin::{AdminClient, AdminOptions, NewPartitions, NewTopic, TopicReplication};
