@@ -11,6 +11,7 @@ mod cgw_remote_discovery;
 mod cgw_remote_server;
 mod cgw_ucentral_messages_queue_manager;
 mod cgw_ucentral_topology_map;
+mod cgw_runtime;
 
 #[macro_use]
 extern crate log;
@@ -36,13 +37,13 @@ use cgw_connection_server::CGWConnectionServer;
 use cgw_remote_server::CGWRemoteServer;
 
 use cgw_metrics::CGWMetrics;
+use cgw_runtime::cgw_initialize_runtimes;
 
 use cgw_common::{
     cgw_errors::{Error, Result},
     cgw_app_args::AppArgs,
     AppCoreLogLevel,
     cgw_tls::cgw_tls_create_acceptor,
-    cgw_runtime::cgw_initialize_runtimes,
     signal_handler,
     cgw_set_tcp_keepalive_options,
 };

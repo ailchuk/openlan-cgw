@@ -1,7 +1,6 @@
 pub mod cgw_errors;
 pub mod cgw_app_args;
 pub mod cgw_tls;
-pub mod cgw_runtime;
 pub mod cgw_device;
 pub mod cgw_ucentral_parser;
 pub mod cgw_ucentral_ap_parser;

@@ -27,12 +27,12 @@ use crate::{
     },
     cgw_nb_api_listener::CGWNBApiClient,
     cgw_remote_discovery::CGWRemoteDiscovery,
+    cgw_runtime::{cgw_get_runtime, CGWRuntimeType},
 };
 
 use cgw_common::{
     cgw_errors::{Error, Result},
     cgw_tls::cgw_tls_get_cn_from_stream,
-    cgw_runtime::{cgw_get_runtime, CGWRuntimeType},
     cgw_ucentral_parser::{
         cgw_ucentral_parse_command_message, CGWUCentralCommand, CGWUCentralCommandType,
         CGWUCentralConfigValidators,
