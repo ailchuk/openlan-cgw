@@ -20,11 +20,9 @@ extern crate lazy_static;
 
 use cgw_kafka_init::cgw_init_kafka_topics;
 
-use nix::sys::socket::{setsockopt, sockopt};
 use tokio::{
     net::TcpListener,
     runtime::{Builder, Handle, Runtime},
-    signal,
     sync::Notify,
     time::{sleep, Duration},
 };
@@ -45,15 +43,9 @@ use cgw_common::{
     AppCoreLogLevel,
     cgw_tls::cgw_tls_create_acceptor,
     cgw_runtime::cgw_initialize_runtimes,
+    signal_handler,
+    cgw_set_tcp_keepalive_options,
 };
-
-use tokio::net::TcpStream;
-
-use std::os::unix::io::AsFd;
-
-const CGW_TCP_KEEPALIVE_TIMEOUT: u32 = 30;
-const CGW_TCP_KEEPALIVE_COUNT: u32 = 3;
-const CGW_TCP_KEEPALIVE_INTERVAL: u32 = 10;
 
 pub struct AppCore {
     cgw_server: Arc<CGWConnectionServer>,
@@ -142,65 +134,6 @@ impl AppCore {
             }
         }
     }
-}
-
-async fn cgw_set_tcp_keepalive_options(stream: TcpStream) -> Result<TcpStream> {
-    // Convert Tokio's TcpStream to std::net::TcpStream
-    let std_stream = match stream.into_std() {
-        Ok(stream) => stream,
-        Err(e) => {
-            error!("Failed to convert Tokio TcpStream into Std TcpStream");
-            return Err(Error::Tcp(format!(
-                "Failed to convert Tokio TcpStream into Std TcpStream: {}",
-                e
-            )));
-        }
-    };
-
-    // Get the raw file descriptor (socket)
-    let raw_fd = std_stream.as_fd();
-
-    // Set the socket option to enable TCP keepalive
-    if let Err(e) = setsockopt(&raw_fd, sockopt::KeepAlive, &true) {
-        error!("Failed to enable TCP keepalive: {}", e);
-        return Err(Error::Tcp("Failed to enable TCP keepalive".to_string()));
-    }
-
-    // Set the TCP_KEEPIDLE option (keepalive time)
-    if let Err(e) = setsockopt(&raw_fd, sockopt::TcpKeepIdle, &CGW_TCP_KEEPALIVE_TIMEOUT) {
-        error!("Failed to set TCP_KEEPIDLE: {}", e);
-        return Err(Error::Tcp("Failed to set TCP_KEEPIDLE".to_string()));
-    }
-
-    // Set the TCP_KEEPINTVL option (keepalive interval)
-    if let Err(e) = setsockopt(&raw_fd, sockopt::TcpKeepCount, &CGW_TCP_KEEPALIVE_COUNT) {
-        error!("Failed to set TCP_KEEPINTVL: {}", e);
-        return Err(Error::Tcp("Failed to set TCP_KEEPINTVL".to_string()));
-    }
-
-    // Set the TCP_KEEPCNT option (keepalive probes count)
-    if let Err(e) = setsockopt(
-        &raw_fd,
-        sockopt::TcpKeepInterval,
-        &CGW_TCP_KEEPALIVE_INTERVAL,
-    ) {
-        error!("Failed to set TCP_KEEPCNT: {}", e);
-        return Err(Error::Tcp("Failed to set TCP_KEEPCNT".to_string()));
-    }
-
-    // Convert the std::net::TcpStream back to Tokio's TcpStream
-    let stream = match TcpStream::from_std(std_stream) {
-        Ok(stream) => stream,
-        Err(e) => {
-            error!("Failed to convert Std TcpStream into Tokio TcpStream");
-            return Err(Error::Tcp(format!(
-                "Failed to convert Std TcpStream into Tokio TcpStream: {}",
-                e
-            )));
-        }
-    };
-
-    Ok(stream)
 }
 
 async fn server_loop(app_core: Arc<AppCore>) -> Result<()> {
@@ -294,28 +227,6 @@ fn setup_logger(log_level: AppCoreLogLevel) {
         AppCoreLogLevel::Info => ::std::env::set_var("RUST_LOG", "ucentral_cgw=info"),
     }
     env_logger::init();
-}
-
-async fn signal_handler(shutdown_notify: Arc<Notify>) -> Result<()> {
-    let mut sigterm = signal::unix::signal(signal::unix::SignalKind::terminate())?;
-    let mut sigint = signal::unix::signal(signal::unix::SignalKind::interrupt())?;
-    let mut sighup = signal::unix::signal(signal::unix::SignalKind::hangup())?;
-
-    tokio::select! {
-        _ = sigterm.recv() => {
-            info!("Received SIGTERM");
-        },
-        _ = sigint.recv() => {
-            info!("Received SIGINT");
-        },
-        _ = sighup.recv() => {
-            info!("Received SIGHUP");
-        },
-    }
-
-    // Notify the main task to shutdown
-    shutdown_notify.notify_one();
-    Ok(())
 }
 
 #[tokio::main(flavor = "current_thread")]

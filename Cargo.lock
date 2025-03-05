@@ -436,6 +436,7 @@ dependencies = [
  "jsonschema",
  "lazy_static",
  "log",
+ "nix",
  "prometheus",
  "rdkafka",
  "reqwest",
