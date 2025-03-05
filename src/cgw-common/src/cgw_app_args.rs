@@ -63,7 +63,7 @@ pub struct CGWWSSArgs {
 }
 
 impl CGWWSSArgs {
-    fn parse() -> Result<CGWWSSArgs> {
+    pub fn parse() -> Result<CGWWSSArgs> {
         let wss_t_num: usize = match env::var("DEFAULT_WSS_THREAD_NUM") {
             Ok(val) => match val.parse() {
                 Ok(v) => v,
@@ -436,7 +436,7 @@ pub struct CGWValidationSchemaArgs {
 }
 
 impl CGWValidationSchemaArgs {
-    fn parse() -> Result<CGWValidationSchemaArgs> {
+    pub fn parse() -> Result<CGWValidationSchemaArgs> {
         let ap_schema_uri: CGWValidationSchemaRef = match env::var("CGW_UCENTRAL_AP_DATAMODEL_URI")
         {
             Ok(uri) => {

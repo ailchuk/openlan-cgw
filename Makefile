@@ -80,3 +80,43 @@ run_docker_services:
 
 run-tests:
 	@cd ./tests && ./run.sh
+
+# Proxy-specific variables
+PROXY_IMG_ID := openlan-proxy-cgw-img
+PROXY_IMG_TAG := $(shell \
+	if [[ `git status --porcelain --untracked-files=no` ]]; then \
+		echo "`git rev-parse --short HEAD`-proxy-dirty"; \
+	else \
+		echo "`git rev-parse --short HEAD`-proxy"; \
+	fi)
+PROXY_IMG_CONTAINER_NAME := "openlan_proxy"
+
+.PHONY: proxy-img stop-proxy run-proxy
+
+# Builds proxy image using the same build environment
+proxy-img: cgw-build-env-img
+	@docker build --file Dockerfile.proxy \
+		--build-arg="CGW_CONTAINER_BUILD_REV=${PROXY_IMG_TAG}" \
+		--tag ${PROXY_IMG_ID}:${PROXY_IMG_TAG} \
+		.
+	@echo Proxy Docker build done;
+
+stop-proxy:
+	@echo "Stopping / removing container ${PROXY_IMG_CONTAINER_NAME}"
+	@docker stop ${PROXY_IMG_CONTAINER_NAME} > /dev/null 2>&1 || true;
+	@docker container rm ${PROXY_IMG_CONTAINER_NAME} > /dev/null 2>&1 || true;
+
+run-proxy: stop-proxy proxy-img run_docker_services
+	@./run_proxy.sh "${PROXY_IMG_ID}:${PROXY_IMG_TAG}" ${PROXY_IMG_CONTAINER_NAME}
+
+# Builds and runs both CGW and Proxy
+run-all: run run-proxy
+	@echo "Both CGW and Proxy services are running"
+
+clean-proxy: stop-proxy
+	@echo Cleaning proxy artifacts...
+	@docker rmi ${PROXY_IMG_ID}:${PROXY_IMG_TAG} >/dev/null 2>&1 || true
+	@echo Done!
+
+# Extends the existing clean target to also clean proxy artifacts
+clean-all: clean clean-proxy
